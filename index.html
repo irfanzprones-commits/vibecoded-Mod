@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mod Hub</title>
+  <meta name="description" content="A simple GitHub Pages site for Geometry Dash mods." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1020;
+      --panel:#11172a;
+      --panel2:#0f1527;
+      --text:#eaf0ff;
+      --muted:#9fb0d0;
+      --line:rgba(255,255,255,.08);
+      --accent:#8b5cf6;
+      --accent2:#22c55e;
+      --danger:#ef4444;
+      --chip:#1a2340;
+      --shadow:0 20px 60px rgba(0,0,0,.35);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(139,92,246,.25), transparent 30%),
+        radial-gradient(circle at top right, rgba(34,197,94,.13), transparent 28%),
+        linear-gradient(180deg, #08101f 0%, #0b1020 100%);
+      color:var(--text);
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:1180px;margin:0 auto;padding:28px 18px 50px}
+    .nav{
+      display:flex;align-items:center;justify-content:space-between;gap:16px;
+      position:sticky;top:0;z-index:20;
+      padding:14px 18px;margin:0 -18px 26px;
+      backdrop-filter:blur(16px);
+      background:rgba(8,16,31,.72);
+      border-bottom:1px solid var(--line);
+    }
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.3px}
+    .logo{
+      width:42px;height:42px;border-radius:14px;
+      background:linear-gradient(135deg,var(--accent),#38bdf8);
+      box-shadow:0 10px 30px rgba(139,92,246,.35);
+      display:grid;place-items:center;font-weight:900;
+    }
+    .navlinks{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:14px}
+    .navlinks a:hover{color:var(--text)}
+    .hero{
+      display:grid;grid-template-columns:1.3fr .9fr;gap:22px;align-items:stretch;
+      margin-bottom:22px;
+    }
+    .card{
+      background:linear-gradient(180deg, rgba(17,23,42,.92), rgba(12,18,33,.92));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+    .hero-left{padding:30px}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;
+      color:#ddd6fe;background:rgba(139,92,246,.12);
+      border:1px solid rgba(139,92,246,.25);
+      padding:8px 12px;border-radius:999px;font-size:13px;font-weight:600;
+    }
+    h1{margin:16px 0 12px;font-size:clamp(34px,5vw,58px);line-height:1.02}
+    .lead{margin:0;color:var(--muted);font-size:16px;line-height:1.7;max-width:62ch}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      padding:12px 16px;border-radius:14px;border:1px solid var(--line);
+      font-weight:700;background:rgba(255,255,255,.02)
+    }
+    .btn.primary{background:linear-gradient(135deg,var(--accent),#6d28d9);border-color:transparent}
+    .btn:hover{transform:translateY(-1px)}
+    .hero-right{padding:24px;display:flex;flex-direction:column;gap:14px}
+    .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .stat{
+      padding:16px;border-radius:18px;background:rgba(255,255,255,.03);
+      border:1px solid var(--line);
+    }
+    .stat .k{font-size:12px;color:var(--muted);margin-bottom:6px}
+    .stat .v{font-size:22px;font-weight:800}
+    .searchbar{
+      display:flex;gap:12px;flex-wrap:wrap;align-items:center;
+      margin:24px 0 18px;
+    }
+    input, select{
+      background:rgba(255,255,255,.03);color:var(--text);
+      border:1px solid var(--line);border-radius:14px;padding:13px 14px;
+      outline:none;
+    }
+    input{flex:1;min-width:240px}
+    select{min-width:180px}
+    .section-title{
+      display:flex;justify-content:space-between;align-items:end;gap:16px;
+      margin:26px 2px 14px;
+    }
+    .section-title h2{margin:0;font-size:24px}
+    .section-title p{margin:0;color:var(--muted)}
+    .mods{
+      display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;
+    }
+    .mod{
+      padding:18px;display:flex;flex-direction:column;gap:12px;
+      transition:transform .18s ease, border-color .18s ease;
+    }
+    .mod:hover{transform:translateY(-3px);border-color:rgba(139,92,246,.4)}
+    .toprow{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+    .mod h3{margin:0;font-size:20px}
+    .tag{
+      display:inline-flex;align-items:center;gap:6px;
+      font-size:12px;padding:7px 10px;border-radius:999px;background:var(--chip);
+      color:#d6e1ff;border:1px solid var(--line);white-space:nowrap;
+    }
+    .tag.stable{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.22)}
+    .tag.beta{background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.22)}
+    .tag.analysis{background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.22)}
+    .mod p{margin:0;color:var(--muted);line-height:1.65}
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{
+      font-size:12px;padding:7px 10px;border-radius:999px;
+      background:rgba(255,255,255,.03);border:1px solid var(--line);color:#dbe7ff
+    }
+    .mod .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto}
+    .small{padding:10px 12px;border-radius:12px;font-size:14px}
+    .footer{
+      margin-top:30px;padding:22px;border-top:1px solid var(--line);
+      color:var(--muted);display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap
+    }
+    .modal-backdrop{
+      position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;
+      padding:18px;z-index:40;
+    }
+    .modal{
+      width:min(900px,100%);max-height:90vh;overflow:auto;
+      background:linear-gradient(180deg, rgba(17,23,42,.98), rgba(9,13,24,.98));
+      border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);padding:22px;
+    }
+    .modal-top{display:flex;justify-content:space-between;gap:12px;align-items:start;margin-bottom:14px}
+    .close{cursor:pointer;font-size:26px;line-height:1;padding:2px 8px;color:var(--muted)}
+    .grid2{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin-top:14px}
+    ul{margin:10px 0 0;padding-left:18px;color:var(--muted);line-height:1.7}
+    .note{
+      padding:14px 16px;border-radius:16px;background:rgba(139,92,246,.09);
+      border:1px solid rgba(139,92,246,.18);color:#e7ddff;font-size:14px;line-height:1.6
+    }
+    .hidden{display:none !important}
+    @media (max-width: 960px){
+      .hero,.grid2,.mods{grid-template-columns:1fr}
+      .nav{position:static}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="nav">
+      <div class="brand">
+        <div class="logo">M</div>
+        <div>
+          <div>Mod Hub</div>
+          <div style="font-size:12px;color:var(--muted);font-weight:500">GitHub Pages ready</div>
+        </div>
+      </div>
+      <nav class="navlinks">
+        <a href="#mods">Mods</a>
+        <a href="#setup">Setup</a>
+        <a href="#about">About</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="card hero-left">
+        <span class="eyebrow">Geometry Dash mod list</span>
+        <h1>Simple, clean downloads for your mods.</h1>
+        <p class="lead">
+          A fast static website you can host on GitHub Pages. Add your mods once, then let people open each page,
+          read the changelog, and download the latest GitHub Release.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#mods">Browse mods</a>
+          <a class="btn" href="#setup">How to set up</a>
+        </div>
+      </div>
+
+      <div class="card hero-right">
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="k">Mods listed</div>
+            <div class="v" id="modCount">0</div>
+          </div>
+          <div class="stat">
+            <div class="k">Categories</div>
+            <div class="v" id="catCount">0</div>
+          </div>
+          <div class="stat">
+            <div class="k">Latest release</div>
+            <div class="v" id="latestRelease">—</div>
+          </div>
+          <div class="stat">
+            <div class="k">Site type</div>
+            <div class="v">Static</div>
+          </div>
+        </div>
+        <div class="note">
+          Edit <b>data/mods.json</b> to add your own mods, then push to GitHub. The page updates automatically.
+        </div>
+      </div>
+    </section>
+
+    <div class="searchbar">
+      <input id="search" type="search" placeholder="Search mods, tags, or features..." />
+      <select id="category">
+        <option value="All">All categories</option>
+      </select>
+    </div>
+
+    <section id="modsSection">
+      <div class="section-title" id="mods">
+        <div>
+          <h2>Mods</h2>
+          <p>Click a card for details and download links.</p>
+        </div>
+      </div>
+      <div class="mods" id="modsGrid"></div>
+    </section>
+
+    <section id="setup" style="margin-top:26px" class="card" >
+      <div style="padding:22px">
+        <div class="section-title" style="margin-top:0">
+          <div>
+            <h2>GitHub Pages setup</h2>
+            <p>Use this in your repository.</p>
+          </div>
+        </div>
+        <div class="grid2">
+          <div>
+            <div class="note">
+              1. Upload these files to your repo.<br>
+              2. Go to <b>Settings → Pages</b>.<br>
+              3. Choose the branch and root folder.<br>
+              4. Save and wait for the site URL.
+            </div>
+          </div>
+          <div>
+            <div class="note">
+              Download buttons use GitHub Releases. Replace <b>YOUR_GITHUB_USERNAME</b> in <b>data/mods.json</b> with your username.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" style="margin-top:18px" class="card">
+      <div style="padding:22px">
+        <div class="section-title" style="margin-top:0">
+          <div>
+            <h2>About</h2>
+            <p>Built for a mod showcase / download hub.</p>
+          </div>
+        </div>
+        <p class="lead" style="max-width:none">
+          This template is plain HTML, CSS, and JavaScript so it works well with GitHub Pages and is easy to edit.
+          You can later add screenshots, blog posts, release notes, or a custom domain.
+        </p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>Made for fast GitHub Pages hosting.</div>
+      <div id="footerLinks">Open-source friendly • Easy to edit</div>
+    </footer>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-top">
+        <div>
+          <div class="eyebrow" id="modalCategory" style="margin-bottom:10px"></div>
+          <h2 id="modalTitle" style="margin:0 0 8px"></h2>
+          <div id="modalMeta" style="color:var(--muted)"></div>
+        </div>
+        <button class="close" id="closeModal" aria-label="Close">&times;</button>
+      </div>
+      <p id="modalDesc" class="lead" style="max-width:none"></p>
+      <div class="grid2">
+        <div class="card" style="padding:18px">
+          <h3 style="margin-top:0">Features</h3>
+          <div class="chips" id="modalFeatures"></div>
+          <div class="actions" style="margin-top:16px">
+            <a class="btn primary" id="modalDownload" href="#" target="_blank" rel="noopener">Download</a>
+            <a class="btn" id="modalRepo" href="#" target="_blank" rel="noopener">Source</a>
+          </div>
+        </div>
+        <div class="card" style="padding:18px">
+          <h3 style="margin-top:0">Changelog</h3>
+          <ul id="modalChangelog"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const repoBase = "https://github.com/";
+    const releasesBase = "https://github.com/";
+
+    let mods = [];
+    let filtered = [];
+
+    const els = {
+      grid: document.getElementById("modsGrid"),
+      search: document.getElementById("search"),
+      category: document.getElementById("category"),
+      modCount: document.getElementById("modCount"),
+      catCount: document.getElementById("catCount"),
+      latestRelease: document.getElementById("latestRelease"),
+      backdrop: document.getElementById("modalBackdrop"),
+      close: document.getElementById("closeModal"),
+      modalTitle: document.getElementById("modalTitle"),
+      modalCategory: document.getElementById("modalCategory"),
+      modalMeta: document.getElementById("modalMeta"),
+      modalDesc: document.getElementById("modalDesc"),
+      modalFeatures: document.getElementById("modalFeatures"),
+      modalChangelog: document.getElementById("modalChangelog"),
+      modalDownload: document.getElementById("modalDownload"),
+      modalRepo: document.getElementById("modalRepo"),
+    };
+
+    const slugify = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+    function ghReleaseLink(repo, tag) {
+      return `${repoBase}${repo}/releases/tag/${encodeURIComponent(tag)}`;
+    }
+    function ghRepoLink(repo) {
+      return `${repoBase}${repo}`;
+    }
+    function latestReleaseLink(repo) {
+      return `${repoBase}${repo}/releases/latest`;
+    }
+
+    function renderStats(list) {
+      els.modCount.textContent = list.length;
+      els.catCount.textContent = [...new Set(list.map(m => m.category))].length;
+      els.latestRelease.textContent = list[0]?.version || "—";
+    }
+
+    function tagClass(status) {
+      const s = status.toLowerCase();
+      if (s.includes("stable")) return "stable";
+      if (s.includes("beta")) return "beta";
+      return "";
+    }
+
+    function renderCategories(list) {
+      const categories = ["All", ...new Set(list.map(m => m.category))];
+      els.category.innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join("");
+    }
+
+    function cardHTML(mod) {
+      const chips = mod.features.slice(0, 4).map(f => `<span class="chip">${f}</span>`).join("");
+      const statusClass = tagClass(mod.status);
+      const download = ghReleaseLink(mod.github_repo, mod.version);
+      return `
+        <article class="card mod">
+          <div class="toprow">
+            <div>
+              <h3>${mod.name}</h3>
+              <div style="color:var(--muted);font-size:14px;margin-top:6px">${mod.tagline}</div>
+            </div>
+            <span class="tag ${statusClass}">${mod.status}</span>
+          </div>
+          <p>${mod.desc}</p>
+          <div class="chips">${chips}</div>
+          <div class="actions">
+            <a class="btn small primary" href="${download}" target="_blank" rel="noopener">${mod.download_label}</a>
+            <button class="btn small" data-open="${mod.slug}">Details</button>
+          </div>
+        </article>
+      `;
+    }
+
+    function applyFilters() {
+      const q = els.search.value.trim().toLowerCase();
+      const category = els.category.value;
+
+      filtered = mods.filter(m => {
+        const hay = [m.name, m.tagline, m.desc, m.category, m.status, m.version, ...(m.features || [])].join(" ").toLowerCase();
+        const passSearch = !q || hay.includes(q);
+        const passCat = category === "All" || m.category === category;
+        return passSearch && passCat;
+      });
+
+      els.grid.innerHTML = filtered.map(cardHTML).join("");
+      document.querySelectorAll("[data-open]").forEach(btn => {
+        btn.addEventListener("click", () => openModal(btn.dataset.open));
+      });
+
+      if (!filtered.length) {
+        els.grid.innerHTML = `<div class="card" style="padding:20px;grid-column:1/-1;color:var(--muted)">No mods match your search.</div>`;
+      }
+    }
+
+    function openModal(slug) {
+      const mod = mods.find(m => m.slug === slug);
+      if (!mod) return;
+
+      els.modalTitle.textContent = mod.name;
+      els.modalCategory.textContent = mod.category;
+      els.modalMeta.textContent = `${mod.status} • ${mod.version}`;
+      els.modalDesc.textContent = mod.desc;
+
+      els.modalFeatures.innerHTML = mod.features.map(f => `<span class="chip">${f}</span>`).join("");
+      els.modalChangelog.innerHTML = mod.changelog.map(item => `<li>${item}</li>`).join("");
+      els.modalDownload.href = ghReleaseLink(mod.github_repo, mod.version);
+      els.modalRepo.href = ghRepoLink(mod.github_repo);
+
+      els.backdrop.style.display = "grid";
+      els.backdrop.setAttribute("aria-hidden", "false");
+    }
+
+    function closeModal() {
+      els.backdrop.style.display = "none";
+      els.backdrop.setAttribute("aria-hidden", "true");
+    }
+
+    els.close.addEventListener("click", closeModal);
+    els.backdrop.addEventListener("click", (e) => {
+      if (e.target === els.backdrop) closeModal();
+    });
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+    els.search.addEventListener("input", applyFilters);
+    els.category.addEventListener("change", applyFilters);
+
+    fetch("data/mods.json")
+      .then(r => r.json())
+      .then(data => {
+        mods = data.map((m, idx) => ({
+          ...m,
+          slug: m.slug || slugify(m.name || `mod-${idx}`),
+        }));
+        renderCategories(mods);
+        renderStats(mods);
+        els.latestRelease.textContent = mods[0]?.version || "—";
+        applyFilters();
+      })
+      .catch(() => {
+        els.grid.innerHTML = `<div class="card" style="padding:20px;grid-column:1/-1;color:var(--muted)">Failed to load mods.json</div>`;
+      });
+  </script>
+</body>
+</html>

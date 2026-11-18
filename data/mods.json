@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Nan Counter",
+    "slug": "nan-counter",
+    "tagline": "Frame window analyzer for Geometry Dash.",
+    "version": "v1.2.0",
+    "status": "Stable",
+    "category": "Analysis",
+    "desc": "Track frame windows, inspect input timing, and review saved analyses.",
+    "features": [
+      "Frame window analyzer",
+      "History",
+      "Saved analyses",
+      "Import/export"
+    ],
+    "github_repo": "YOUR_GITHUB_USERNAME/nan-counter",
+    "download_label": "Download release",
+    "changelog": [
+      "Added cleaner results layout",
+      "Improved dual input handling",
+      "Fixed UI spacing on smaller screens"
+    ]
+  },
+  {
+    "name": "LAN Co-op",
+    "slug": "lan-coop",
+    "tagline": "Play Geometry Dash together on the same network.",
+    "version": "v0.9.1",
+    "status": "Beta",
+    "category": "Multiplayer",
+    "desc": "A co-op concept mod for local play, testing, and shared sessions.",
+    "features": [
+      "Local co-op",
+      "Session tools",
+      "Quick connect",
+      "Practice-friendly"
+    ],
+    "github_repo": "YOUR_GITHUB_USERNAME/lan-coop",
+    "download_label": "Get beta",
+    "changelog": [
+      "Improved session pairing",
+      "Fixed connection retry handling",
+      "Updated setup guide"
+    ]
+  },
+  {
+    "name": "Better Editor",
+    "slug": "better-editor",
+    "tagline": "Small editor quality-of-life improvements.",
+    "version": "v1.0.0",
+    "status": "Stable",
+    "category": "Editor",
+    "desc": "Quick improvements for building, testing, and navigating levels.",
+    "features": [
+      "Faster workflow",
+      "Cleaner UI",
+      "Useful shortcuts",
+      "Lightweight"
+    ],
+    "github_repo": "YOUR_GITHUB_USERNAME/better-editor",
+    "download_label": "Download",
+    "changelog": [
+      "Initial public release",
+      "Added compact tools panel",
+      "Polished navigation"
+    ]
+  }
+]
